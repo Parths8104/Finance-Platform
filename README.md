@@ -44,22 +44,19 @@ route, and NextAuth issues a JWT session that every request is checked against.
 
 ```mermaid
 flowchart TD
-    User["User (Browser)"] -->|HTTPS| MW["Middleware<br/>route protection"]
+    User["User Browser"] -->|HTTPS| MW["Middleware: route protection"]
 
-    subgraph APP["Next.js 14 — App Router"]
-        MW --> SC["Server Components<br/>Overview · Transactions · Budgets"]
-        SC --> CC["Client Components<br/>Forms · Charts · Managers"]
-        CC -->|fetch| API["Route Handlers<br/>/api/transactions · /api/budgets · /api/register"]
+    subgraph APP["Next.js 14 App Router"]
+        MW --> SC["Server Components: Overview, Transactions, Budgets"]
+        SC --> CC["Client Components: forms, charts, managers"]
+        CC -->|fetch| API["API Route Handlers"]
     end
 
     SC -->|read| ORM["Prisma ORM"]
-    API -->|read / write| ORM
-    API --> AUTH["NextAuth<br/>JWT session + bcrypt"]
+    API -->|read and write| ORM
+    API --> AUTH["NextAuth: JWT and bcrypt"]
     AUTH --> ORM
     ORM -->|SQL| DB[("PostgreSQL")]
-
-    classDef store fill:#1b4d33,stroke:#1b4d33,color:#fff;
-    class DB store;
 ```
 
 **Request lifecycle (adding a transaction):**
